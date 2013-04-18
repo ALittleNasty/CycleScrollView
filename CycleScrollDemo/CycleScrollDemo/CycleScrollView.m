@@ -7,6 +7,7 @@
 //
 
 #import "CycleScrollView.h"
+#import "SCGIFImageView.h"
 
 @implementation CycleScrollView
 @synthesize delegate;
@@ -70,9 +71,17 @@
     
     for (int i = 0; i < 3; i++) 
     {
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:scrollFrame];
+//        UIImageView *imageView = [[UIImageView alloc] initWithFrame:scrollFrame];
+//        imageView.userInteractionEnabled = YES;
+//        imageView.image = [curImages objectAtIndex:i];
+
+        SCGIFImageView *imageView = [[SCGIFImageView alloc] initWithFrame:scrollFrame];
         imageView.userInteractionEnabled = YES;
-        imageView.image = [curImages objectAtIndex:i];
+        [imageView getImageWithUrl:[curImages objectAtIndex:i] defaultImg:[UIImage imageNamed:@"3.jpg"] successBlock:^{
+            
+        } failedBlock:^{
+            
+        }];
         
         UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                     action:@selector(handleTap:)];

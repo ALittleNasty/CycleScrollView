@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		49B39A0F171FF6A50058E039 /* SCGIFImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 49B39A0E171FF6A50058E039 /* SCGIFImageView.m */; };
 		520460E91589E73700A5A390 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 520460E81589E73700A5A390 /* UIKit.framework */; };
 		520460EB1589E73700A5A390 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 520460EA1589E73700A5A390 /* Foundation.framework */; };
 		520460ED1589E73700A5A390 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 520460EC1589E73700A5A390 /* CoreGraphics.framework */; };
@@ -25,6 +26,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		49B39A0D171FF6A50058E039 /* SCGIFImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCGIFImageView.h; sourceTree = "<group>"; };
+		49B39A0E171FF6A50058E039 /* SCGIFImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCGIFImageView.m; sourceTree = "<group>"; };
 		520460E41589E73600A5A390 /* CycleScrollDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CycleScrollDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		520460E81589E73700A5A390 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		520460EA1589E73700A5A390 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -62,6 +65,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		49B39A0C171FF6920058E039 /* GIF */ = {
+			isa = PBXGroup;
+			children = (
+				49B39A0D171FF6A50058E039 /* SCGIFImageView.h */,
+				49B39A0E171FF6A50058E039 /* SCGIFImageView.m */,
+			);
+			name = GIF;
+			sourceTree = "<group>";
+		};
 		520460D91589E73600A5A390 = {
 			isa = PBXGroup;
 			children = (
@@ -92,6 +104,7 @@
 		520460EE1589E73700A5A390 /* CycleScrollDemo */ = {
 			isa = PBXGroup;
 			children = (
+				49B39A0C171FF6920058E039 /* GIF */,
 				520461051589E74800A5A390 /* CycleScrollView */,
 				520460F71589E73700A5A390 /* AppDelegate.h */,
 				520460F81589E73700A5A390 /* AppDelegate.m */,
@@ -210,6 +223,7 @@
 				520460F91589E73700A5A390 /* AppDelegate.m in Sources */,
 				520460FC1589E73700A5A390 /* ViewController.m in Sources */,
 				520461081589E75500A5A390 /* CycleScrollView.m in Sources */,
+				49B39A0F171FF6A50058E039 /* SCGIFImageView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

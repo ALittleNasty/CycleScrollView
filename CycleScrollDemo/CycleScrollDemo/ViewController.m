@@ -27,12 +27,21 @@
 	// Do any additional setup after loading the view, typically from a nib.
     NSLog(@"%@ %@", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
     NSMutableArray *picArray = [[NSMutableArray alloc] init];
-    [picArray addObject:[UIImage imageNamed:@"0.jpg"]];
-    [picArray addObject:[UIImage imageNamed:@"1.jpg"]];
-    [picArray addObject:[UIImage imageNamed:@"2.jpg"]];
-    [picArray addObject:[UIImage imageNamed:@"3.jpg"]];
+//    [picArray addObject:[UIImage imageNamed:@"0.jpg"]];
+//    [picArray addObject:[UIImage imageNamed:@"1.jpg"]];
+//    [picArray addObject:[UIImage imageNamed:@"2.jpg"]];
+//    [picArray addObject:[UIImage imageNamed:@"3.jpg"]];
     
-//    CFShow(picArray);
+
+    [picArray addObject:@"http://icons.iconsmash.com/Layered-Drives/Layered-Drives.jpg"];
+    [picArray addObject:@"http://icons.iconsmash.com/Pastel-Icons/Pastel-Icons.jpg"];
+    [picArray addObject:@"http://icons.iconsmash.com/Shining-Z-Pack/Shining-Z-Pack.jpg"];
+    [picArray addObject:@"http://icons.iconsmash.com/the-last-order-ico/the-last-order-ico.jpg"];
+    [picArray addObject:@"http://icons.iconsmash.com/iPhone-icons-win-by-judge/iPhone-icons-win-by-judge.jpg"];
+    [picArray addObject:@"http://icons.iconsmash.com/Black-Blue-win/Black-Blue-win.jpg"];
+    [picArray addObject:@"http://icons.iconsmash.com/IconsLandVistaHardwareDevicesIconsV2Demo/IconsLandVistaHardwareDevicesIconsV2Demo.jpg"];
+    [picArray addObject:@"http://icons.iconsmash.com/Starwars-icons-win/Starwars-icons-win.jpg"];
+    
     CycleScrollView *cycle = [[CycleScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)
                                                      cycleDirection:CycleDirectionLandscape
                                                            pictures:picArray];
