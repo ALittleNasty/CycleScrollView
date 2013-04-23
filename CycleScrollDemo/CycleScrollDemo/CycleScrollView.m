@@ -99,8 +99,8 @@
             imageView.frame = CGRectOffset(imageView.frame, 0, scrollFrame.size.height * i);
         }
         
-        
         [scrollView addSubview:imageView];
+        [imageView release];
     }
     
     if (scrollDirection == CycleDirectionLandscape) 
