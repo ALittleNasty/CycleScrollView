@@ -12,7 +12,7 @@
 @implementation CycleScrollView
 @synthesize delegate;
 
-- (id)initWithFrame:(CGRect)frame cycleDirection:(CycleDirection)direction pictures:(NSArray *)pictureArray
+- (id)initWithFrame:(CGRect)frame cycleDirection:(CycleDirection)direction pictures:(NSArray *)pictureArray defaultImg:(UIImage *)defaultImg;
 {
     self = [super initWithFrame:frame];
     if(self)
@@ -23,6 +23,7 @@
         curPage = 1;                                    // 显示的是图片数组里的第一张图片
         curImages = [[NSMutableArray alloc] init];
         imagesArray = [[NSArray alloc] initWithArray:pictureArray];
+        self.defaultImg = defaultImg;
         
         scrollView = [[UIScrollView alloc] initWithFrame:frame];
         scrollView.backgroundColor = [UIColor blackColor];
@@ -236,6 +237,7 @@
     [curImages release];
     
     autoScrollTimer = nil;
+    self.defaultImg = nil;
     
     [super dealloc];
 }

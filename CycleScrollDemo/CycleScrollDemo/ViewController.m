@@ -44,9 +44,8 @@
     
     CycleScrollView *cycle = [[CycleScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)
                                                      cycleDirection:CycleDirectionLandscape
-                                                           pictures:picArray];
+                                                           pictures:picArray defaultImg: [UIImage imageNamed:@"3.png"]];
     cycle.delegate = self;
-    cycle.defaultImg = [UIImage imageNamed:@"3.png"];
     [self.view addSubview:cycle];
     [cycle release];
     

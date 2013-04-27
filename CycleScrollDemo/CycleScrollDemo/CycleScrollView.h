@@ -42,7 +42,7 @@ typedef enum {
 @property (nonatomic, retain) UIImage   *defaultImg;
 
 - (int)validPageValue:(NSInteger)value;
-- (id)initWithFrame:(CGRect)frame cycleDirection:(CycleDirection)direction pictures:(NSArray *)pictureArray;
+- (id)initWithFrame:(CGRect)frame cycleDirection:(CycleDirection)direction pictures:(NSArray *)pictureArray defaultImg:(UIImage *)defaultImg;
 - (NSArray *)getDisplayImagesWithCurpage:(int)page;
 - (void)refreshScrollView;
 
