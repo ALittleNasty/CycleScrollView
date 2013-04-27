@@ -46,6 +46,7 @@
                                                      cycleDirection:CycleDirectionLandscape
                                                            pictures:picArray];
     cycle.delegate = self;
+    cycle.defaultImg = [UIImage imageNamed:@"3.png"];
     [self.view addSubview:cycle];
     [cycle release];
     

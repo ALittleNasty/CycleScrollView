@@ -77,7 +77,7 @@
 
         SCGIFImageView *imageView = [[SCGIFImageView alloc] initWithFrame:scrollFrame];
         imageView.userInteractionEnabled = YES;
-        [imageView getImageWithUrl:[curImages objectAtIndex:i] defaultImg:[UIImage imageNamed:@"3.jpg"] successBlock:^{
+        [imageView getImageWithUrl:[curImages objectAtIndex:i] defaultImg:self.defaultImg successBlock:^{
             
         } failedBlock:^{
             

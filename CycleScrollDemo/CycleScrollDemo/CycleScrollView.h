@@ -39,6 +39,7 @@ typedef enum {
 }
 
 @property (nonatomic, assign) id delegate;
+@property (nonatomic, retain) UIImage   *defaultImg;
 
 - (int)validPageValue:(NSInteger)value;
 - (id)initWithFrame:(CGRect)frame cycleDirection:(CycleDirection)direction pictures:(NSArray *)pictureArray;
