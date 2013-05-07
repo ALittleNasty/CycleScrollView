@@ -17,6 +17,7 @@
     self = [super initWithFrame:frame];
     if(self)
     {
+        self.backgroundColor = [UIColor clearColor];
         scrollFrame = frame;
         scrollDirection = direction;
         totalPage = pictureArray.count;
@@ -61,6 +62,8 @@
 
 - (void)refreshScrollView 
 {
+    if (!imagesArray || [imagesArray count] < 1)
+        return;
     
     NSArray *subViews = [scrollView subviews];
     if([subViews count] != 0)
@@ -70,12 +73,8 @@
     
     [self getDisplayImagesWithCurpage:curPage];
     
-    for (int i = 0; i < 3; i++) 
+    for (int i = 0; i < 3 && [curImages count] > i; i++) 
     {
-//        UIImageView *imageView = [[UIImageView alloc] initWithFrame:scrollFrame];
-//        imageView.userInteractionEnabled = YES;
-//        imageView.image = [curImages objectAtIndex:i];
-
         SCGIFImageView *imageView = [[SCGIFImageView alloc] initWithFrame:scrollFrame];
         imageView.userInteractionEnabled = YES;
         [imageView getImageWithUrl:[curImages objectAtIndex:i] defaultImg:self.defaultImg successBlock:^{
@@ -117,6 +116,8 @@
 
 - (NSArray *)getDisplayImagesWithCurpage:(int)page 
 {
+    if(!imagesArray || [imagesArray count] == 0)
+        return nil;
     
     int pre = [self validPageValue:curPage-1];
     int last = [self validPageValue:curPage+1];
