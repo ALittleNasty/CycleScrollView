@@ -26,7 +26,7 @@
         imagesArray = [[NSArray alloc] initWithArray:pictureArray];
         self.defaultImg = defaultImg;
         
-        scrollView = [[UIScrollView alloc] initWithFrame:frame];
+        scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
         scrollView.backgroundColor = [UIColor blackColor];
         scrollView.showsHorizontalScrollIndicator = NO;
         scrollView.showsVerticalScrollIndicator = NO;
@@ -75,7 +75,7 @@
     
     for (int i = 0; i < 3 && [curImages count] > i; i++) 
     {
-        SCGIFImageView *imageView = [[SCGIFImageView alloc] initWithFrame:scrollFrame];
+        SCGIFImageView *imageView = [[SCGIFImageView alloc] initWithFrame:CGRectMake(0, 0, scrollFrame.size.width, scrollFrame.size.height)];
         imageView.userInteractionEnabled = YES;
         [imageView getImageWithUrl:[curImages objectAtIndex:i] defaultImg:self.defaultImg successBlock:^{
             
