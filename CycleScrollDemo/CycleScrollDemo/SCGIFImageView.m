@@ -888,7 +888,36 @@ static  BOOL GCDAsyncDownloadImageCancel = NO;
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     
-    UIImage *cachedImg = [SCGIFImageView loadCacheImg:urlString defaultImg:nil];
+    self.image = defaultImg;
+    if (!urlString || urlString.length < 1)
+    {
+            //嵌套的block会被copy
+        if (failedBlock != NULL)
+        {
+            dispatch_async(dispatch_get_main_queue(), failedBlock);
+        }
+        
+        [pool drain];
+        return;
+    }
+    
+    UIImage *cachedImg = nil;
+        //本地图片
+    if ([urlString hasPrefix:@"/var/mobile/"] || [urlString hasPrefix:@"/Users/"]) //[urlString hasPrefix:@"/Users/"] 是运行在模拟器上
+    {
+        NSData *cacheImgData = [NSData dataWithContentsOfFile:urlString];
+        
+            //读取缓存时不加风火轮
+        if (cacheImgData)
+        {
+            cachedImg = [UIImage imageWithData:cacheImgData];
+        }
+    }
+    else
+    {
+        cachedImg = [SCGIFImageView loadCacheImg:urlString defaultImg:nil];
+    }
+    
     if (cachedImg)
     {
         self.image = cachedImg;
@@ -896,20 +925,6 @@ static  BOOL GCDAsyncDownloadImageCancel = NO;
         if (successBlock != NULL)
         {
             dispatch_async(dispatch_get_main_queue(), successBlock);
-        }
-        
-        [pool drain];
-        return;
-    }
-    
-    self.image = defaultImg;
-    
-    if (!urlString || urlString.length < 1)
-    {
-            //嵌套的block会被copy
-        if (failedBlock != NULL)
-        {
-            dispatch_async(dispatch_get_main_queue(), failedBlock);
         }
         
         [pool drain];
