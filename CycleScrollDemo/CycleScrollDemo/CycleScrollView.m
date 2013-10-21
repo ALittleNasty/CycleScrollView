@@ -46,8 +46,7 @@
             scrollView.contentSize = CGSizeMake(scrollView.frame.size.width,
                                                 scrollView.frame.size.height * 3);
         }
-        
-        [self addSubview:scrollView];
+
         [self refreshScrollView];
         
         
@@ -65,16 +64,16 @@
     if (!imagesArray || [imagesArray count] < 1)
         return;
     
-    NSArray *subViews = [scrollView subviews];
-    if([subViews count] != 0)
+    for (UIView *v in scrollView.subviews)
     {
-        [subViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+        [v removeFromSuperview];
     }
-    
+
     [self getDisplayImagesWithCurpage:curPage];
     
     for (int i = 0; i < 3 && [curImages count] > i; i++) 
     {
+        NSAutoreleasePool *pool = [NSAutoreleasePool new];
         SCGIFImageView *imageView = [[SCGIFImageView alloc] initWithFrame:CGRectMake(0, 0, scrollFrame.size.width, scrollFrame.size.height)];
         imageView.userInteractionEnabled = YES;
         [imageView getImageWithUrl:[curImages objectAtIndex:i] defaultImg:self.defaultImg successBlock:^{
@@ -101,6 +100,8 @@
         
         [scrollView addSubview:imageView];
         [imageView release];
+
+        [pool drain];
     }
     
     if (scrollDirection == CycleDirectionLandscape) 
