@@ -17,6 +17,8 @@
     self = [super initWithFrame:frame];
     if(self)
     {
+        mutlDict = [NSMutableDictionary new];
+
         self.backgroundColor = [UIColor clearColor];
         scrollFrame = frame;
         scrollDirection = direction;
@@ -47,17 +49,42 @@
                                                 scrollView.frame.size.height * 3);
         }
 
-        [self refreshScrollView];
-        
-        
-        if (imagesArray && [imagesArray count] > 1)
-        {
-            autoScrollTimer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(autoScrollAd:) userInfo:nil repeats:YES];
-        }
+        [self startTimer];
     }
     
     return self;
 }
+
+- (void)startTimer
+{
+    [self refreshScrollView];
+
+    if (imagesArray && [imagesArray count] > 1)
+    {
+        autoScrollTimer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(autoScrollAd:) userInfo:nil repeats:YES];
+    }
+}
+
+
+- (void)cleanUpTimerAndCache
+{
+    if ([autoScrollTimer isValid])
+    {
+        [autoScrollTimer invalidate];
+        autoScrollTimer = nil;
+    }
+
+    if ([mutlDict count])
+    {
+        [mutlDict removeAllObjects];
+    }
+
+    for (UIView *v in scrollView.subviews)
+    {
+        [v removeFromSuperview];
+    }
+}
+
 
 - (void)refreshScrollView 
 {
@@ -74,36 +101,47 @@
     for (int i = 0; i < 3 && [curImages count] > i; i++) 
     {
         NSAutoreleasePool *pool = [NSAutoreleasePool new];
-        SCGIFImageView *imageView = [[SCGIFImageView alloc] initWithFrame:CGRectMake(0, 0, scrollFrame.size.width, scrollFrame.size.height)];
-        imageView.userInteractionEnabled = YES;
-        [imageView getImageWithUrl:[curImages objectAtIndex:i] defaultImg:self.defaultImg successBlock:^{
-            
-        } failedBlock:^{
-            
-        }];
-        
-        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                                    action:@selector(handleTap:)];
-        [imageView addGestureRecognizer:singleTap];
-        [singleTap release];
-        
-        // 水平滚动
-        if(scrollDirection == CycleDirectionLandscape) 
+        NSString *imgUrl = [curImages objectAtIndex:i];
+        SCGIFImageView *imageView = nil;
+        if ([mutlDict.allKeys containsObject:imgUrl])
+        {
+            imageView =  [mutlDict objectForKey:imgUrl];
+            imageView.frame = CGRectMake(0, 0, scrollFrame.size.width, scrollFrame.size.height);
+            [scrollView addSubview:imageView];
+        }
+        else
+        {
+            imageView = [[SCGIFImageView alloc] initWithFrame:CGRectMake(0, 0, scrollFrame.size.width, scrollFrame.size.height)];
+            imageView.userInteractionEnabled = YES;
+            [imageView getImageWithUrl:imgUrl defaultImg:self.defaultImg successBlock:^{
+
+            } failedBlock:^{
+
+            }];
+
+            UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                        action:@selector(handleTap:)];
+            [imageView addGestureRecognizer:singleTap];
+            [singleTap release];
+
+            [mutlDict setObject:imageView forKey:imgUrl];
+            [scrollView addSubview:imageView];
+            [imageView release];
+        }
+            // 水平滚动
+        if(scrollDirection == CycleDirectionLandscape)
         {
             imageView.frame = CGRectOffset(imageView.frame, scrollFrame.size.width * i, 0);
         }
-        // 垂直滚动
-        if(scrollDirection == CycleDirectionPortait) 
+            // 垂直滚动
+        if(scrollDirection == CycleDirectionPortait)
         {
             imageView.frame = CGRectOffset(imageView.frame, 0, scrollFrame.size.height * i);
         }
-        
-        [scrollView addSubview:imageView];
-        [imageView release];
 
         [pool drain];
     }
-    
+
     if (scrollDirection == CycleDirectionLandscape) 
     {
         [scrollView setContentOffset:CGPointMake(scrollFrame.size.width, 0)];
@@ -239,6 +277,8 @@
     [curImages release];
     
     autoScrollTimer = nil;
+    [mutlDict release];
+
     self.defaultImg = nil;
     
     [super dealloc];

@@ -36,6 +36,7 @@ typedef enum {
     id delegate;
     
     NSTimer *autoScrollTimer;
+    NSMutableDictionary *mutlDict;
 }
 
 @property (nonatomic, assign) id delegate;
@@ -45,6 +46,10 @@ typedef enum {
 - (id)initWithFrame:(CGRect)frame cycleDirection:(CycleDirection)direction pictures:(NSArray *)pictureArray defaultImg:(UIImage *)defaultImg;
 - (NSArray *)getDisplayImagesWithCurpage:(int)page;
 - (void)refreshScrollView;
+
+- (void)startTimer;
+
+- (void)cleanUpTimerAndCache;
 
 @end
 
