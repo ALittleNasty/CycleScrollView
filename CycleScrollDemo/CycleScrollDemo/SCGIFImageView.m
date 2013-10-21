@@ -131,6 +131,7 @@ static  BOOL GCDAsyncDownloadImageCancel = NO;
     {
         [self initVars];
     }
+    selfClass = object_getClass(self);
     return self;
 }
 
@@ -142,6 +143,7 @@ static  BOOL GCDAsyncDownloadImageCancel = NO;
     {
         [self initVars];
     }
+    selfClass = object_getClass(self);
     return self;
 }
 
@@ -153,6 +155,7 @@ static  BOOL GCDAsyncDownloadImageCancel = NO;
     {
         [self initVars];
     }
+    selfClass = object_getClass(self);
     return self;
 }
 
@@ -164,6 +167,7 @@ static  BOOL GCDAsyncDownloadImageCancel = NO;
     {
         [self initVars];
     }
+    selfClass = object_getClass(self);
     return self;
 }
 
@@ -244,7 +248,8 @@ static  BOOL GCDAsyncDownloadImageCancel = NO;
         
         [self loadImageData:gifFilePath];
 	}
-	
+
+    selfClass = object_getClass(self);
 	return self;
 }
 
@@ -866,7 +871,8 @@ static  BOOL GCDAsyncDownloadImageCancel = NO;
     {
         [self getImageWithUrl:urlString defaultImg:defaultImg successBlock:NULL failedBlock:NULL];
     }
-    
+
+    selfClass = object_getClass(self);
     return self;
 }
 
@@ -878,7 +884,8 @@ static  BOOL GCDAsyncDownloadImageCancel = NO;
     {
         [self getImageWithUrl:urlString defaultImg:NULL successBlock:successBlock failedBlock:failedBlock];
     }
-    
+
+    selfClass = object_getClass(self);
     return self;
 }
 
@@ -889,6 +896,7 @@ static  BOOL GCDAsyncDownloadImageCancel = NO;
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     
     self.image = defaultImg;
+    
     if (!urlString || urlString.length < 1)
     {
             //嵌套的block会被copy
@@ -901,38 +909,13 @@ static  BOOL GCDAsyncDownloadImageCancel = NO;
         return;
     }
     
-    UIImage *cachedImg = nil;
-        //本地图片
-    if ([urlString hasPrefix:@"/var/mobile/"] || [urlString hasPrefix:@"/Users/"]) //[urlString hasPrefix:@"/Users/"] 是运行在模拟器上
-    {
-        NSData *cacheImgData = [NSData dataWithContentsOfFile:urlString];
-        
-            //读取缓存时不加风火轮
-        if (cacheImgData)
-        {
-            cachedImg = [UIImage imageWithData:cacheImgData];
-        }
-    }
-    else
-    {
-        cachedImg = [SCGIFImageView loadCacheImg:urlString defaultImg:nil];
-    }
-    
-    if (cachedImg)
-    {
-        self.image = cachedImg;
-        
-        if (successBlock != NULL)
-        {
-            dispatch_async(dispatch_get_main_queue(), successBlock);
-        }
-        
-        [pool drain];
-        return;
-    }
-    
     
     NSString *imageFilePath = [self getCacheFile:[self MD5Value:urlString]];
+        //本地图片
+    if ([urlString hasPrefix:@"/var/mobile/"] || [urlString hasPrefix:@"/Users/"])
+    {
+        imageFilePath = urlString;
+    }
     NSData *cacheImgData = [NSData dataWithContentsOfFile:imageFilePath];
     
     if (_currentDownloadingImgFilePath)
@@ -951,7 +934,9 @@ static  BOOL GCDAsyncDownloadImageCancel = NO;
         if (![SCGIFImageView isGifImage:cacheImgData])
         {
             UIImage *cachedImg = [UIImage imageWithData:cacheImgData];
-            self.image = cachedImg;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.image = cachedImg;
+            });
         }
         else
         {
@@ -961,20 +946,12 @@ static  BOOL GCDAsyncDownloadImageCancel = NO;
         if (successBlock != NULL)
         {
             NSLog(@"read cached img");
-            successBlock();
+            dispatch_async(dispatch_get_main_queue(), successBlock);
         }
 
     }
     else
     {
-//        for (UIView *view in self.subviews)
-//        {
-//            if ([view isKindOfClass:[UIActivityIndicatorView class]])
-//            {
-//                [view removeFromSuperview];
-//            }
-//        }
-        
         if (!indicatorView)
         {
             indicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -1009,7 +986,7 @@ static  BOOL GCDAsyncDownloadImageCancel = NO;
                 indicatorView = nil;
             });
             
-            if (imageData)
+            if (imageData && imageData.length > 3)
             {
                 BOOL isGifImg = [SCGIFImageView isGifImage:imageData];
                     //if it's not gif image
@@ -1024,6 +1001,7 @@ static  BOOL GCDAsyncDownloadImageCancel = NO;
                         //还有可能不是图片
                     else
                     {
+                        [blockUseCurrentDownloadingImgPath release];
                             //嵌套的block会被copy
                         if (failedBlock != NULL)
                         {
@@ -1049,23 +1027,42 @@ static  BOOL GCDAsyncDownloadImageCancel = NO;
                             if (!isGifImg)
                             {
                                 [UIView animateWithDuration:0.4 animations:^{selfImgView.alpha = 0.0f;} completion:^(BOOL finished){
-                                    
-                                    selfImgView.image = img;
-                                    [UIView animateWithDuration:0.4 animations:^{
-                                        
-                                        selfImgView.alpha = 1.0f;
-                                    }];
+
+                                    if (selfClass == object_getClass(selfImgView))
+                                    {
+                                        selfImgView.image = img;
+                                        [UIView animateWithDuration:0.4 animations:^{
+                                            if (selfClass == object_getClass(selfImgView))
+                                            {
+                                                selfImgView.alpha = 1.0f;
+                                            }
+                                        }];
+                                    }
                                 }];
                             }
                             else
                             {
-                                [UIView animateWithDuration:0.4 animations:^{selfImgView.alpha = 0.0f;} completion:^(BOOL finished){
-                                    
-                                    [selfImgView loadImageByImageDataOrFilePath:nil currentDecodeGifPath:imageFilePath];
-                                    [UIView animateWithDuration:0.4 animations:^{
-                                        
-                                        selfImgView.alpha = 1.0f;
-                                    }];
+                                [UIView animateWithDuration:0.4
+                                                 animations:^{
+
+                                                     if (selfClass == object_getClass(selfImgView))
+                                                     {
+                                                         selfImgView.alpha = 0.0f;
+                                                     }
+                                                 }
+                                                 completion:^(BOOL finished){
+
+                                                     if (selfClass == object_getClass(selfImgView))
+                                                     {
+                                                         [selfImgView loadImageByImageDataOrFilePath:nil currentDecodeGifPath:imageFilePath];
+                                                     }
+                                                     [UIView animateWithDuration:0.4 animations:^{
+
+                                                         if (selfClass == object_getClass(selfImgView))
+                                                         {
+                                                             selfImgView.alpha = 1.0f;
+                                                         }
+                                                     }];
                                 }];
                             }
                         }
@@ -1130,21 +1127,6 @@ static  BOOL GCDAsyncDownloadImageCancel = NO;
     {
         return [UIImage imageWithData:cacheImgData];
     }
-//    else
-//    {
-//        NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:imgUrl]];
-//        UIImage *img = nil;
-//        
-//        if (imageData)
-//        {
-//            img = [UIImage imageWithData:imageData];
-//            if (img)
-//            {
-//                [UIImagePNGRepresentation(img) writeToFile:imageFilePath atomically:YES];
-//            }
-//            return img;
-//        }
-//    }
     return defaultImg;
 }
 
