@@ -103,7 +103,7 @@
         NSAutoreleasePool *pool = [NSAutoreleasePool new];
         NSString *imgUrl = [curImages objectAtIndex:i];
         SCGIFImageView *imageView = nil;
-        if ([mutlDict.allKeys containsObject:imgUrl])
+        if ([mutlDict.allKeys containsObject:imgUrl] && [imagesArray count] > 1)
         {
             imageView =  [mutlDict objectForKey:imgUrl];
             imageView.frame = CGRectMake(0, 0, scrollFrame.size.width, scrollFrame.size.height);

@@ -33,10 +33,10 @@
 //    [picArray addObject:[UIImage imageNamed:@"3.jpg"]];
     
     [picArray addObject:[[NSBundle mainBundle] pathForResource:@"0" ofType:@"jpg"]];
-    [picArray addObject:[[NSBundle mainBundle] pathForResource:@"1" ofType:@"jpg"]];
-    [picArray addObject:[[NSBundle mainBundle] pathForResource:@"2" ofType:@"jpg"]];
-    [picArray addObject:@"http://icons.iconsmash.com/Layered-Drives/Layered-Drives.jpg"];
-    [picArray addObject:@"http://icons.iconsmash.com/Pastel-Icons/Pastel-Icons.jpg"];
+//    [picArray addObject:[[NSBundle mainBundle] pathForResource:@"1" ofType:@"jpg"]];
+//    [picArray addObject:[[NSBundle mainBundle] pathForResource:@"2" ofType:@"jpg"]];
+//    [picArray addObject:@"http://icons.iconsmash.com/Layered-Drives/Layered-Drives.jpg"];
+//    [picArray addObject:@"http://icons.iconsmash.com/Pastel-Icons/Pastel-Icons.jpg"];
 //    [picArray addObject:@"http://icons.iconsmash.com/Shining-Z-Pack/Shining-Z-Pack.jpg"];
 //    [picArray addObject:@"http://icons.iconsmash.com/the-last-order-ico/the-last-order-ico.jpg"];
 //    [picArray addObject:@"http://icons.iconsmash.com/iPhone-icons-win-by-judge/iPhone-icons-win-by-judge.jpg"];
