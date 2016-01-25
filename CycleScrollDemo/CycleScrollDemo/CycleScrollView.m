@@ -17,10 +17,20 @@
     self = [super initWithFrame:frame];
     if(self)
     {
+        CGRect (^clearDecimalBlock)(CGRect frame)  = ^(CGRect frame)
+        {
+            float (^pblock)(float val)  = ^(float val)
+            {
+                float v = ((int)(val * 10) % 10 < 5) ? (float)((int)val) : (float)((int)val + 0.5);
+                return v;
+            };
+            return CGRectMake(pblock(frame.origin.x), pblock(frame.origin.y), pblock(frame.size.width), pblock(frame.size.height));
+        };
+
         mutlDict = [NSMutableDictionary new];
 
         self.backgroundColor = [UIColor clearColor];
-        scrollFrame = frame;
+        scrollFrame = clearDecimalBlock(frame);
         scrollDirection = direction;
         totalPage = pictureArray.count;
         curPage = 1;                                    // 显示的是图片数组里的第一张图片
