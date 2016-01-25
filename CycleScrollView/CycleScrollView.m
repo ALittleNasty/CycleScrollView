@@ -63,7 +63,7 @@
             [self addSubview:_bgView];
         }
         
-        scrollView              = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+        scrollView              = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, scrollFrame.size.width, scrollFrame.size.height)];
         scrollView.pagingEnabled= YES;
         scrollView.delegate     = self;
         scrollView.backgroundColor                  = [UIColor blackColor];

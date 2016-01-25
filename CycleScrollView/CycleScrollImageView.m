@@ -40,7 +40,7 @@
         _imagesUrlArr           = [[NSArray alloc] initWithArray:imagesUrlArr];
         self.defaultImg         = defaultImg;
         
-        scrollView              = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+        scrollView              = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, scrollFrame.size.width, scrollFrame.size.height)];
         scrollView.backgroundColor = [UIColor clearColor];
         scrollView.showsHorizontalScrollIndicator = NO;
         scrollView.showsVerticalScrollIndicator = NO;
@@ -48,7 +48,7 @@
         scrollView.delegate     = self;
         [self addSubview:scrollView];
         
-        pageControl             = [[UIPageControl alloc] initWithFrame:CGRectMake(0, frame.size.height - 20, frame.size.width, 20)];
+        pageControl             = [[UIPageControl alloc] initWithFrame:CGRectMake(0, scrollFrame.size.height - 20, scrollFrame.size.width, 20)];
         pageControl.numberOfPages = totalPage;
         pageControl.currentPage = 0;
         pageControl.pageIndicatorTintColor = kLineGrayColor;

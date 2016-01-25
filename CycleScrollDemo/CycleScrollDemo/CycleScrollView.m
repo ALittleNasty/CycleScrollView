@@ -38,7 +38,7 @@
         imagesArray = [[NSArray alloc] initWithArray:pictureArray];
         self.defaultImg = defaultImg;
         
-        scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+        scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, scrollFrame.size.width, scrollFrame.size.height)];
         scrollView.backgroundColor = [UIColor blackColor];
         scrollView.showsHorizontalScrollIndicator = NO;
         scrollView.showsVerticalScrollIndicator = NO;
